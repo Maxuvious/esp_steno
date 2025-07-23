@@ -1,6 +1,6 @@
 # esp_steno
 
-This project uses Rust with nightly **only for this project** (no global override).
+This project uses Rust with nightly **only for this project** (no global override).  
 Follow these steps to set up your development environment and get started.
 
 ---
@@ -13,7 +13,9 @@ Go to https://rustup.rs/ and download the installer.
 Run it and follow the instructions.
 
 After install, verify in a new terminal or command prompt:
+
 ```
+sh
 rustc --version
 cargo --version
 ```
@@ -23,6 +25,7 @@ cargo --version
 ### 2. Clone this Repository
 
 ```
+sh
 git clone <repo-url>
 cd <repo-folder>
 ```
@@ -34,7 +37,9 @@ cd <repo-folder>
 This repository includes a `rust-toolchain.toml` file which pins the Rust toolchain to nightly for this project.
 
 If you ever need to set or update manually (from inside this folder):
+
 ```
+sh
 rustup override set nightly
 ```
 
@@ -43,6 +48,7 @@ rustup override set nightly
 ### 4. Install ESP Toolchain Prerequisites
 
 ```
+sh
 cargo install espup
 espup install
 ```
@@ -50,57 +56,46 @@ espup install
 
 ---
 
-### 5. Add the ESP Target
+### 5. Build the Project
 
-For ESP32:
-```
-rustup target add xtensa-esp32-none-elf
-```
-
-For ESP32-C3/S2/S3:
-```
-rustup target add riscv32imc-esp-espidf
-```
-
----
-
-### 6. Install Project Template Generator (if needed)
+**For ESP32 device firmware:**
 
 ```
-cargo install cargo-generate
+sh
+cargo build --release --features device
+```
+
+**For host/desktop frontend (testing chord processing on your PC):**
+
+```
+sh
+cargo run --features host
 ```
 
 ---
 
-### 7. Build the Project
-
-```
-cargo build
-```
-Or, if needed:
-```
-cargo build --release --target xtensa-esp32-none-elf
-```
-
----
-
-### 8. Flash the Device
+### 6. Flash the Device
 
 First time only, install flasher:
+
 ```
+sh
 cargo install espflash
 ```
 
-Flash (replace COM3 with your serial port and <bin-name> with your binary):
+Flash (replace COM3 with your serial port and `<bin-name>` with your binary):
+
 ```
-espflash COM3 target\xtensa-esp32-none-elf\release\<bin-name>
+sh
+espflash COM3 target/xtensa-esp32-none-elf/release/<bin-name>
 ```
 
 ---
 
-### 9. Monitor Serial Output
+### 7. Monitor Serial Output
 
 ```
+sh
 espflash serial-monitor COM3
 ```
 
@@ -108,7 +103,8 @@ espflash serial-monitor COM3
 
 ## Notes
 
+- Do **not** use `rustup target add xtensa-esp32-none-elf`—`espup` handles the toolchain and targets automatically.
 - All Rust and cargo tools are per-user; no admin required.
 - Using nightly is project-specific and does not affect other projects or the system default toolchain.
 - For more, see: https://esp-rs.github.io/book/
-
+- To add a GUI to the host frontend in the future, enable the `winit` dependency and update `host.rs`.

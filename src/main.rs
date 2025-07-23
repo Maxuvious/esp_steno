@@ -1,3 +1,10 @@
+mod common;
+mod device;
+mod host;
+
 fn main() {
-    println!("Hello, world!");
+    #[cfg(feature = "device")]
+    device::run();
+    #[cfg(feature = "host")]
+    host::run();
 }

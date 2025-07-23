@@ -4,3 +4,14 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+# --- Device-side (ESP32) ---
+esp-idf-hal = { version = "0.43", optional = true }     # GPIO/Peripherals
+esp-idf-svc = { version = "0.48", optional = true }     # BLE support (if/when you need it)
+# --- Host-side ---
+serialport = { version = "4.3", optional = true }       # For serial COM port reading
+winit = { version = "0.29", optional = true }           # For simple GUI, can omit for terminal MVP
+
+[features]
+device = ["esp-idf-hal", "esp-idf-svc"]
+host = ["serialport", "winit"]
+default = ["host"]
